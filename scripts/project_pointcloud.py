@@ -43,3 +43,15 @@ def project_pc2img(pc_array):
     points_2d[:, 1] *= points_2d[:, 2]
 
     return u_coord, v_coord, z
+
+def reproject2pointcloud(K, categoried_points):
+    categoried_points[:, 0] *= categoried_points[:, 2]
+    categoried_points[:, 1] *= categoried_points[:, 2]
+    points_ = categoried_points[:, :3]
+    points_recovery = np.linalg.inv(K) @ points_.T
+    points_recovery = points_recovery.T
+    points_recovery[:, [0, 1, 2]] = points_recovery[:, [2, 0, 1]]
+    points_recovery[:, 1] *= -1
+    points_recovery[:, 2] *= -1
+
+    return points_recovery
