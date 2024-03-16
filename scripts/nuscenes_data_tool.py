@@ -10,6 +10,7 @@ import rospy
 from sensor_msgs import point_cloud2
 from sensor_msgs.msg import PointCloud2, Image
 from cv_bridge import CvBridge
+from rangeview_projection import rv_project
 
 
 rospy.init_node("pc_pub_node")
@@ -60,6 +61,7 @@ for scene_i in nusc.scene:
 	pcd_bin_file = os.path.join(nusc.dataroot, top_lidar_data['filename'])
 	pc = LidarPointCloud.from_file(pcd_bin_file)
 	pcd = pc.points.T
+	intensity = pcd[:, 3][:, np.newaxis]
 	pcd = pcd[:, :3]
 
 	# 定义欧拉角
@@ -88,6 +90,13 @@ for scene_i in nusc.scene:
 	lidarseg_labels_filename = os.path.join(nusc.dataroot,
 											nusc.get(gt_from, sample["data"]['LIDAR_TOP'])['filename'])
 	points_label = np.fromfile(lidarseg_labels_filename, dtype=np.uint8)[:, np.newaxis]
+	pcd = np.hstack((pcd, intensity, points_label))
+
+	# Calculate the pairwise distances between points
+	distances = np.linalg.norm(pcd[:, :3], ord=2, axis=1)
+	pcd = pcd[distances > 2.5]
+
+	proj = rv_project(pcd)
 
 	# point_cloud = o3d.geometry.PointCloud()
 	# point_cloud.points = o3d.utility.Vector3dVector(pcd)
@@ -97,7 +106,7 @@ for scene_i in nusc.scene:
 		header = rospy.Header()
 		header.stamp = rospy.Time.now()
 		header.frame_id = 'map'
-		pc_msg = point_cloud2.create_cloud_xyz32(header, pcd)
+		pc_msg = point_cloud2.create_cloud_xyz32(header, pcd[:, :3])
 		pc_pub.publish(pc_msg)
 
 		img_msg = bridge.cv2_to_imgmsg(image2, encoding='bgr8')

@@ -26,32 +26,33 @@ def rv_project(points, fov_up=10*np.pi/180, fov_down=-30*np.pi/180, H=32, W=1024
 	
 	yaw = np.floor(yaw).astype(int)
 	pitch = np.floor(pitch).astype(int)
-	
-	pitch[pitch > 32] = 32
-	
+
+	pitch[pitch > 31] = 31
+
+	# canvas is for visualization. to see the category of each pixel in projection
 	canvas = np.zeros((H, W))
 	canvas[pitch, yaw] = labels
 	# canvas[pitch, yaw] = r
 	
-	canvas_ = canvas.copy()
-	canvas[canvas == 24] = 2
-	canvas[(canvas_ != 24) & (canvas_ != 0)] = 1
-	
-	proj = np.zeros([H, W, 3])
-	proj[pitch, yaw] = points[:, :3]
+	# proj = np.zeros([H, W, 3])
+	# proj[pitch, yaw] = points[:, :3]
+
+	proj = np.zeros([H, W, 2])
+	proj[pitch, yaw, 0] = r
+	proj[pitch, yaw, 1] = intensity
 	
 	# canvas = canvas[:, 384:641]
 	# proj = proj[:, 384:641]
 	
-	# plt.imshow(canvas)
+	# plt.imshow(proj[:, :, 0])
 	# plt.show()
 	
-	# 计算每一列的均值
-	# 计算每个二维数组的均值
-	mean_values = np.mean(proj, axis=(0, 1))
-	std_dev_values = np.std(proj, axis=(0, 1))
+	# # 计算每一列的均值
+	# # 计算每个二维数组的均值
+	# mean_values = np.mean(proj, axis=(0, 1))
+	# std_dev_values = np.std(proj, axis=(0, 1))
+	#
+	# mean_std = [mean_values[0], mean_values[1], mean_values[2],
+	#             std_dev_values[0], std_dev_values[1], std_dev_values[2]]
 	
-	mean_std = [mean_values[0], mean_values[1], mean_values[2],
-	            std_dev_values[0], std_dev_values[1], std_dev_values[2]]
-	
-	return proj, canvas, mean_std
+	return proj
