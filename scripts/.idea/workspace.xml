@@ -6,8 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="96e170b5-c7dd-477e-9a14-650f4d54f56c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nuscenes_data_tool.py" beforeDir="false" afterPath="$PROJECT_DIR$/nuscenes_data_tool.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rangeview_projection.py" beforeDir="false" afterPath="$PROJECT_DIR$/rangeview_projection.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,7 +45,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "/home/robotics/some_python_tools/scripts"
+    "last_opened_file_path": "/home/robotics/cadc"
   }
 }]]></component>
   <component name="RunManager" selected="Python.nuscenes_data_tool">
@@ -210,16 +208,5 @@
       <updated>1709183957349</updated>
     </task>
     <servers />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/rangeview_projection.py</url>
-          <line>46</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
