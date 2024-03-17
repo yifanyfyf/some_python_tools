@@ -33,21 +33,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.image_sub.executor": "Run",
-    "Python.image_sub_pub.executor": "Run",
-    "Python.nuscenes_data_tool.executor": "Run",
-    "Python.pointcloud_image_ts.executor": "Run",
-    "Python.pointcloud_sub_pub.executor": "Run",
-    "Python.rangeview_projection.executor": "Run",
-    "Python.test.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/home/robotics/cadc"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.image_sub.executor&quot;: &quot;Run&quot;,
+    &quot;Python.image_sub_pub.executor&quot;: &quot;Run&quot;,
+    &quot;Python.nuscenes_data_tool.executor&quot;: &quot;Run&quot;,
+    &quot;Python.pointcloud_image_ts.executor&quot;: &quot;Run&quot;,
+    &quot;Python.pointcloud_sub_pub.executor&quot;: &quot;Run&quot;,
+    &quot;Python.rangeview_projection.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/robotics/cadc&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Python.nuscenes_data_tool">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="scripts" />

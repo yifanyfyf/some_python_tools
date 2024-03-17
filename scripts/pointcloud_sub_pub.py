@@ -49,6 +49,7 @@ class PointCloud_SubPub:
         header.frame_id = "map"  # Set your frame ID here
 
         pc_msg = point_cloud2.create_cloud(header, fields, self.lidar)
+        pc_msg1 = point_cloud2.create_cloud_xyz32(header, self.lidar)
 
         self.pc_pub.publish(pc_msg)
 
