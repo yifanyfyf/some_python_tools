@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import math
 
 
-def rv_project(points, fov_up=10*np.pi/180, fov_down=-30*np.pi/180, H=32, W=1024):
+def rv_project(points, fov_up=20*np.pi/180, fov_down=-20*np.pi/180, H=32, W=1024):
 	fov = abs(fov_down) + abs(fov_up)  # get field of view total in rad
 	# get depth of all points
 	depth = np.linalg.norm(points[:, :3], 2, axis=1)
@@ -12,10 +12,11 @@ def rv_project(points, fov_up=10*np.pi/180, fov_down=-30*np.pi/180, H=32, W=1024
 	scan_y = points[:, 1]
 	scan_z = points[:, 2]
 	intensity = points[:, 3]
-	labels = points[:, 4]
+	# labels = points[:, 4]
 
 	yaw = -np.arctan2(scan_y, scan_x)
 	pitch = np.arcsin(scan_z / depth)
+	pitch_temp = pitch * 180 / np.pi
 	r = np.linalg.norm(points[:, :3], axis=1)
 	
 	yaw = (yaw + np.pi) / (2 * np.pi)
@@ -28,10 +29,11 @@ def rv_project(points, fov_up=10*np.pi/180, fov_down=-30*np.pi/180, H=32, W=1024
 	pitch = np.floor(pitch).astype(int)
 
 	pitch[pitch > 31] = 31
+	pitch[pitch < 0] = 0
 
 	# canvas is for visualization. to see the category of each pixel in projection
 	canvas = np.zeros((H, W))
-	canvas[pitch, yaw] = labels
+	# canvas[pitch, yaw] = labels
 	# canvas[pitch, yaw] = r
 	
 	# proj = np.zeros([H, W, 3])
@@ -44,8 +46,8 @@ def rv_project(points, fov_up=10*np.pi/180, fov_down=-30*np.pi/180, H=32, W=1024
 	# canvas = canvas[:, 384:641]
 	# proj = proj[:, 384:641]
 	
-	# plt.imshow(proj[:, :, 0])
-	# plt.show()
+	plt.imshow(proj[:, :, 0])
+	plt.show()
 	
 	# # 计算每一列的均值
 	# # 计算每个二维数组的均值

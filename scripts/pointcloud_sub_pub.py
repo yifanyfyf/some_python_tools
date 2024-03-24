@@ -14,11 +14,15 @@ class PointCloud_SubPub:
         self.pc_pub = rospy.Publisher("/pointcloud", PointCloud2, queue_size=10)
         rospy.loginfo("initialized!")
 
-        lidar_path = '/home/robotics/Downloads/cadc_data/cadcd/2019_02_27/0027/labeled/lidar_points/data/0000000000.bin'
-        scan_data = np.fromfile(lidar_path, dtype=np.float32)
+        # read .bin
+        # lidar_path = '/home/robotics/Downloads/cadc_data/cadcd/2019_02_27/0027/labeled/lidar_points/data/0000000000.bin'
+        # scan_data = np.fromfile(lidar_path, dtype=np.float32)
+        # self.lidar = scan_data.reshape((-1, 4))
 
-        # 2D array where each row contains a point [x, y, z, intensity]
-        self.lidar = scan_data.reshape((-1, 4))
+        # read .pcd
+        filename = '/home/robotics/Downloads/pcd_data/kitti/pc/000000.pcd'
+        # Load data from the text file, start from x-th lines
+        self.lidar = np.loadtxt(filename, skiprows=11)
 
     def callback(self, msg):
         pc_data2 = ros_numpy.numpify(msg)
@@ -49,9 +53,11 @@ class PointCloud_SubPub:
         header.frame_id = "map"  # Set your frame ID here
 
         pc_msg = point_cloud2.create_cloud(header, fields, self.lidar)
-        pc_msg1 = point_cloud2.create_cloud_xyz32(header, self.lidar)
+        # pc_msg1 = point_cloud2.create_cloud_xyz32(header, self.lidar)
 
         self.pc_pub.publish(pc_msg)
+
+        np.save('/home/robotics/Downloads/data4openpcdet/point_cloud.npy', self.lidar)
 
         rospy.loginfo("PointCloud published")
 

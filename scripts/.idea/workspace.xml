@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="96e170b5-c7dd-477e-9a14-650f4d54f56c" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rangeview_projection.py" beforeDir="false" afterPath="$PROJECT_DIR$/rangeview_projection.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,22 +33,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.image_sub.executor&quot;: &quot;Run&quot;,
-    &quot;Python.image_sub_pub.executor&quot;: &quot;Run&quot;,
-    &quot;Python.nuscenes_data_tool.executor&quot;: &quot;Run&quot;,
-    &quot;Python.pointcloud_image_ts.executor&quot;: &quot;Run&quot;,
-    &quot;Python.pointcloud_sub_pub.executor&quot;: &quot;Run&quot;,
-    &quot;Python.rangeview_projection.executor&quot;: &quot;Run&quot;,
-    &quot;Python.test.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/robotics/cadc&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.image_sub.executor": "Run",
+    "Python.image_sub_pub.executor": "Run",
+    "Python.nuscenes_data_tool.executor": "Run",
+    "Python.pointcloud_image_ts.executor": "Run",
+    "Python.pointcloud_sub_pub.executor": "Run",
+    "Python.rangeview_projection.executor": "Run",
+    "Python.test.executor": "Debug",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/home/robotics/cadc"
   }
-}</component>
-  <component name="RunManager" selected="Python.nuscenes_data_tool">
+}]]></component>
+  <component name="RunManager" selected="Python.test">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="scripts" />
       <option name="ENV_FILES" value="" />
@@ -183,8 +183,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.nuscenes_data_tool" />
         <item itemvalue="Python.test" />
+        <item itemvalue="Python.nuscenes_data_tool" />
         <item itemvalue="Python.rangeview_projection" />
         <item itemvalue="Python.pointcloud_image_ts" />
         <item itemvalue="Python.pointcloud_sub_pub" />
@@ -208,5 +208,16 @@
       <updated>1709183957349</updated>
     </task>
     <servers />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/rangeview_projection.py</url>
+          <line>21</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
