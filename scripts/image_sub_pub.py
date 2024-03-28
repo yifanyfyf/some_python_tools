@@ -13,11 +13,14 @@ class Image_SubPub:
         self.display_thread.start()
 
         rospy.init_node("image_sub_display_node")
-        self.image_sub = rospy.Subscriber("c1_camera/image_raw", Image, self.callback)
+        # self.image_sub = rospy.Subscriber("/c1_camera/image_raw", Image, self.callback)
         self.bridge = CvBridge()
-        self.image_pub = rospy.Publisher("c1_camera/image", Image, queue_size=10)
+        self.image_pub = rospy.Publisher("/denoise_node/image_raw", Image, queue_size=10)
 
         rospy.loginfo("initialized!")
+
+        self.img = cv2.imread(
+            '/home/robotics/Downloads/kccs0217/saved_data/image/1708213950763757202.jpg')
 
     def callback(self, msg):
         rospy.loginfo("received image")
@@ -26,6 +29,12 @@ class Image_SubPub:
         img_msg = self.bridge.cv2_to_imgmsg(self.showimg, encoding='bgr8')
         img_msg.header.stamp = rospy.Time.now()
         self.image_pub.publish(img_msg)
+
+    def publish(self):
+        img_msg = self.bridge.cv2_to_imgmsg(self.img, encoding='bgr8')
+        img_msg.header.stamp = rospy.Time.now()
+        self.image_pub.publish(img_msg)
+        rospy.loginfo("publish image")
 
     def display_img(self):
         while True:
@@ -38,4 +47,6 @@ class Image_SubPub:
 
 if __name__ == "__main__":
     da_ros = Image_SubPub()
-    rospy.spin()
+    while True:
+        da_ros.publish()
+        time.sleep(0.01)

@@ -10,8 +10,8 @@ class PointCloud_SubPub:
     def __init__(self):
         rospy.init_node("pointcloud_sub_pub")
 
-        self.pc_sub = rospy.Subscriber("/ouster/points", PointCloud2, self.callback)
-        self.pc_pub = rospy.Publisher("/pointcloud", PointCloud2, queue_size=10)
+        # self.pc_sub = rospy.Subscriber("/ouster/points", PointCloud2, self.callback)
+        self.pc_pub = rospy.Publisher("/denoise_node/pointcloud_desnowed", PointCloud2, queue_size=10)
         rospy.loginfo("initialized!")
 
         # read .bin
@@ -20,7 +20,7 @@ class PointCloud_SubPub:
         # self.lidar = scan_data.reshape((-1, 4))
 
         # read .pcd
-        filename = '/home/robotics/Downloads/pcd_data/kitti/pc/000000.pcd'
+        filename = '/home/robotics/Downloads/kccs0217/saved_data/pcd/1708213950763757202.pcd'
         # Load data from the text file, start from x-th lines
         self.lidar = np.loadtxt(filename, skiprows=11)
 
@@ -57,7 +57,14 @@ class PointCloud_SubPub:
 
         self.pc_pub.publish(pc_msg)
 
-        np.save('/home/robotics/Downloads/data4openpcdet/point_cloud.npy', self.lidar)
+        # Extract the 4th column intensity
+        col_4 = self.lidar[:, 3]
+        max_val = np.max(col_4)
+        min_val = np.min(col_4)
+        normalized_col_4 = (col_4 - min_val) / (max_val - min_val)
+        self.lidar[:, 3] = normalized_col_4
+
+        # np.save('/home/robotics/Downloads/data4openpcdet/point_cloud.npy', self.lidar)
 
         rospy.loginfo("PointCloud published")
 
@@ -66,4 +73,4 @@ if __name__ == "__main__":
     pointcloud_subpub = PointCloud_SubPub()
     while True:
         pointcloud_subpub.publish_pc()
-        time.sleep(0.1)
+        time.sleep(0.01)
