@@ -20,9 +20,7 @@ class PointCloud_SubPub:
         # self.lidar = scan_data.reshape((-1, 4))
 
         # read .pcd
-        filename = '/home/robotics/Downloads/kccs0217/saved_data/pcd/1708213950763757202.pcd'
-        # Load data from the text file, start from x-th lines
-        self.lidar = np.loadtxt(filename, skiprows=11)
+        self.lidar = np.loadtxt('/backup/0310/saved_data/pcd/1710026654970724161.pcd', skiprows=11)
 
     def callback(self, msg):
         pc_data2 = ros_numpy.numpify(msg)

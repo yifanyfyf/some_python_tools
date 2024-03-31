@@ -19,8 +19,7 @@ class Image_SubPub:
 
         rospy.loginfo("initialized!")
 
-        self.img = cv2.imread(
-            '/home/robotics/Downloads/kccs0217/saved_data/image/1708213950763757202.jpg')
+        self.img = cv2.imread("/backup/0310/saved_data/image/1710026654970724161.jpg")
 
     def callback(self, msg):
         rospy.loginfo("received image")
