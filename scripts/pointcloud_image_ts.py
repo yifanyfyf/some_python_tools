@@ -1,6 +1,6 @@
 import rospy
 from sensor_msgs import point_cloud2
-from sensor_msgs.msg import PointCloud2, Image
+from sensor_msgs.msg import PointCloud2, Image, PointField
 import message_filters
 from cv_bridge import CvBridge
 import ros_numpy
@@ -25,7 +25,7 @@ class PCIMG_Ts:
     def callback(self, msg_pc, msg_img):
         rospy.loginfo("received msg")
 
-        pc_data2 = ros_numpy.numpify(msg)
+        pc_data2 = ros_numpy.numpify(msg_pc)
 	pc_x = pc_data2[:, :]["x"].flatten()
 	pc_y = pc_data2[:, :]["y"].flatten()
 	pc_z = pc_data2[:, :]["z"].flatten()
