@@ -26,24 +26,24 @@ class PCIMG_Ts:
         rospy.loginfo("received msg")
 
         pc_data2 = ros_numpy.numpify(msg)
-		pc_x = pc_data2[:, :]["x"].flatten()
-		pc_y = pc_data2[:, :]["y"].flatten()
-		pc_z = pc_data2[:, :]["z"].flatten()
-		pc_intensity = pc_data2[:, :]["intensity"].flatten()
-		pc_array = np.vstack([pc_x, pc_y, pc_z, pc_intensity]).T
+	pc_x = pc_data2[:, :]["x"].flatten()
+	pc_y = pc_data2[:, :]["y"].flatten()
+	pc_z = pc_data2[:, :]["z"].flatten()
+	pc_intensity = pc_data2[:, :]["intensity"].flatten()
+	pc_array = np.vstack([pc_x, pc_y, pc_z, pc_intensity]).T
 
-		fields = [
-			PointField('x', 0, PointField.FLOAT32, 1),
-			PointField('y', 4, PointField.FLOAT32, 1),
-			PointField('z', 8, PointField.FLOAT32, 1),
-			PointField('intensity', 12, PointField.FLOAT32, 1),
+	fields = [
+		PointField('x', 0, PointField.FLOAT32, 1),
+		PointField('y', 4, PointField.FLOAT32, 1),
+		PointField('z', 8, PointField.FLOAT32, 1),
+		PointField('intensity', 12, PointField.FLOAT32, 1),
 		]
 
-		header = rospy.Header()
-		header.stamp = rospy.Time.now()
-		header.frame_id = "map"  # Set your frame ID here
+	header = rospy.Header()
+	header.stamp = rospy.Time.now()
+	header.frame_id = "map"  # Set your frame ID here
 
-		pc_msg = point_cloud2.create_cloud(header, fields, pc_array)
+	pc_msg = point_cloud2.create_cloud(header, fields, pc_array)
 
         self.pc_pub.publish(pc_msg)
 
