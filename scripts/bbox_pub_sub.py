@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 import rospy
 from jsk_recognition_msgs.msg import BoundingBox, BoundingBoxArray
 
@@ -31,9 +30,9 @@ def publish_bboxes():
         bbox.pose.position.z = .0
 
         # 设置边界框的大小
-        bbox.dimensions.x = 15  # width  x-axis
-        bbox.dimensions.y = 2.0  # length y-axis
-        bbox.dimensions.z = 1.0  # height z-aixs
+        bbox.dimensions.x = 15  # x轴方向总长
+        bbox.dimensions.y = 2.0  # y轴方向总长
+        bbox.dimensions.z = 1.0  # z
 
         # 添加到数组
         bbox_array_msg.boxes.append(bbox)
