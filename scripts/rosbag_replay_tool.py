@@ -3,17 +3,21 @@ import rosbag
 from sensor_msgs.msg import JointState, Image, PointCloud2
 from std_msgs.msg import Header
 import queue
+from tqdm import tqdm
 
 
 class RosbagPlayer:
-    def __init__(self, topic_name='/lidar', type=PointCloud2):
+    def __init__(self, topic_name='/lidar_pc', type=PointCloud2):
+        self.topic_name = topic_name
         self.pub = rospy.Publisher(topic_name, type, queue_size=10)
-        self.q = queue.Queue()
+        self.content = []
 
+    def content_length(self):
+        return len(self.content)
 
 class RosbagPlayerManager:
     def __init__(self, bag, topics_dict):
-        self.players = {}
+        self.players = {}       # It is a dict. key is the topic name, value is the instance of Class RosbagPlayer
 
         for key, value in topics_dict.items():
             print(f"generate player: {key}:, type: {value}")
@@ -23,37 +27,37 @@ class RosbagPlayerManager:
         for topic_name, topic_type in topics_dict.items():
             selected_topics.append(topic_name)
 
-        for topic, msg, t in bag.read_messages(topics=selected_topics):
-            self.players[topic].q.put(msg)
+        total_messages = bag.get_message_count(selected_topics)
+        for topic, msg, t in tqdm(bag.read_messages(topics=selected_topics), total=total_messages):
+            self.players[topic].content.append(msg)
             min_qsize = self.find_min_qsize()
-            if self.players[topic].q.qsize() > min_qsize + 1:
-                self.players[topic].q.get()
+            if self.players[topic].content_length() > min_qsize + 1:
+                self.players[topic].content.pop(0)
 
-        for name, player in self.players.items():
-            print(player.q.qsize())
-        print('All Messages Loaded!\n')
+        print("\nStarting loading messages......\n")
+        for key, value in self.players.items():
+            self.total_msg_number = value.content_length()
+            print(f"There is {self.total_msg_number} messages in topic: {key}")
+
+        print("\nAll messages loaded! \nReplay will start soon!")
+        rospy.sleep(3)
+
+    def replay_from_middle(self, start_idx=100):
+        print(f"\n replay from {start_idx}")
+        for i in range(start_idx, self.total_msg_number):
+            for topic_name, player in self.players.items():
+                msg = player.content[i]
+                msg.header.stamp = rospy.Time.now()
+                player.pub.publish(msg)
+                rospy.loginfo(f"playing frame: {i} / {self.total_msg_number}")
+                rospy.sleep(0.01)
 
     def find_min_qsize(self):
         min_qsize = 1e8
         for name, player in self.players.items():
-            if player.q.qsize() < min_qsize:
-                min_qsize = player.q.qsize()
+            if player.content_length() < min_qsize:
+                min_qsize = player.content_length()
         return min_qsize
-
-    def replay(self):
-        print("starting replay")
-        while True:
-            if self.find_min_qsize() > 0:
-                print(f"---------------------- left msgs number: {self.find_min_qsize()} ------------------------")
-                for name, player in self.players.items():
-                    rospy.loginfo(f"publishing: {name} topic")
-                    msg = player.q.get()
-                    msg.header.stamp = rospy.Time.now()
-                    player.pub.publish(msg)
-
-                    rospy.sleep(0.01)
-            else:
-                break
 
 
 def main():
@@ -72,7 +76,7 @@ def main():
     for topic, topic_info in info.topics.items():
         msg_type = topic_info.msg_type
         print(f"Topic: {topic}, Type: {msg_type}")
-    print("bag loaded! \n")
+    print("Bag Loaded! \n")
 
     topics_dict = {'/lidar_pc': PointCloud2,
                    '/detection_model/vertices': PointCloud2,
@@ -85,7 +89,7 @@ def main():
 
     player_manager = RosbagPlayerManager(bag, topics_dict)
 
-    player_manager.replay()
+    player_manager.replay_from_middle(100)
 
 if __name__ == "__main__":
     main()
