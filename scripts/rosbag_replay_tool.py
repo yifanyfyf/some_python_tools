@@ -40,10 +40,10 @@ class RosbagPlayerManager:
             print(f"There is {self.total_msg_number} messages in topic: {key}")
 
         print("\nAll messages loaded! \nReplay will start soon!")
-        rospy.sleep(3)
+        rospy.sleep(5)
 
     def replay_from_middle(self, start_idx=100):
-        print(f"\n replay from {start_idx}")
+        print(f"Replay from {start_idx}\n")
         for i in range(start_idx, self.total_msg_number):
             for topic_name, player in self.players.items():
                 msg = player.content[i]
