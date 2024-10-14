@@ -4,6 +4,7 @@ from sensor_msgs.msg import JointState, Image, PointCloud2
 from std_msgs.msg import Header
 import queue
 from tqdm import tqdm
+import time
 
 
 class RosbagPlayer:
@@ -19,14 +20,14 @@ class RosbagPlayerManager:
     def __init__(self, bag, topics_dict):
         self.players = {}       # It is a dict. key is the topic name, value is the instance of Class RosbagPlayer
 
-        for key, value in topics_dict.items():
-            print(f"generate player: {key}:, type: {value}")
-            self.players[key] = RosbagPlayer(topic_name=key, type=value)
-
         selected_topics = []
         for topic_name, topic_type in topics_dict.items():
+            print(f"generate player: {topic_name}:, type: {topic_type}")
+            self.players[topic_name] = RosbagPlayer(topic_name=topic_name, type=topic_type)
             selected_topics.append(topic_name)
 
+        # extract message from rosbag
+        print(f"\nStart extracting message from rosbag......")
         total_messages = bag.get_message_count(selected_topics)
         for topic, msg, t in tqdm(bag.read_messages(topics=selected_topics), total=total_messages):
             self.players[topic].content.append(msg)
@@ -34,13 +35,12 @@ class RosbagPlayerManager:
             if self.players[topic].content_length() > min_qsize + 1:
                 self.players[topic].content.pop(0)
 
-        print("\nStarting loading messages......\n")
+        # check the length of all players
         for key, value in self.players.items():
             self.total_msg_number = value.content_length()
             print(f"There is {self.total_msg_number} messages in topic: {key}")
 
-        print("\nAll messages loaded! \nReplay will start soon!")
-        rospy.sleep(5)
+        print("\nAll messages loaded!\n")
 
     def replay_from_middle(self, start_idx=100):
         print(f"Replay from {start_idx}\n")
