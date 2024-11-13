@@ -57,7 +57,6 @@ if __name__ == "__main__":
 
 	# 定义全局坐标中的多个点
 	local_coords = np.array([[6, 6], [7, 8], [9, 10]])
-	# points = np.array([[-1., 11.], [-3., 12.], [-5., 14.]])
 	global_coords = local_to_global(local_coords, origin_local, theta)
 	print("全局坐标转换为:\n", global_coords)
 	
