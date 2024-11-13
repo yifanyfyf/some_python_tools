@@ -51,16 +51,14 @@ def global_to_local(points_global, origin_local, theta):
 
 
 if __name__ == "__main__":
-	# 定义全局坐标中的多个点
-	# points = np.array([[6, 6], [7, 8], [9, 10]])
-	points = np.array([[-1., 11.],
-	 [-3., 12.],
-	 [-5., 14.]])
-
 	# 定义局部坐标系的原点和角度
-	origin_local = (5, 5)
+	origin_local = np.array([[5, 5]])
 	theta = np.pi / 180 * 90
 
-	# 转换为局部坐标
-	points_local = global_to_local(points, origin_local, theta)
-	print("全局坐标转换为局部坐标:\n", points_local)
+	# 定义全局坐标中的多个点
+	local_coords = np.array([[6, 6], [7, 8], [9, 10]])
+	# points = np.array([[-1., 11.], [-3., 12.], [-5., 14.]])
+	global_coords = local_to_global(local_coords, origin_local, theta)
+	print("全局坐标转换为:\n", global_coords)
+	
+	print("局部坐标转换为:\n", global_to_local(global_coords, origin_local, theta))
