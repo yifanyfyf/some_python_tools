@@ -34,6 +34,22 @@ def publish_bboxes():
         bbox.dimensions.y = 2.0  # y轴方向总长
         bbox.dimensions.z = 1.0  # z
 
+        # 设置旋转角度（以弧度表示）
+        roll = 0.1   # 绕 x 轴旋转
+        pitch = 0.2  # 绕 y 轴旋转
+        yaw = 0.3    # 绕 z 轴旋转
+        
+        # 将 roll, pitch, yaw 转换为四元数
+        quaternion = quaternion_from_euler(roll, pitch, yaw)
+        
+        # 设置四元数到 BoundingBox 的 pose.orientation
+        bbox.pose.orientation = Quaternion(
+            x=quaternion[0],
+            y=quaternion[1],
+            z=quaternion[2],
+            w=quaternion[3]
+        )
+
         # 添加到数组
         bbox_array_msg.boxes.append(bbox)
 
